@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     if( this.hardcodedAuthenticationService.isUserLoggedIn()) {
         console.log('test',sessionStorage.getItem('authenticaterUser'))
       this.router.navigate([`/welcome/${sessionStorage.getItem('authenticaterUser')}`]);
