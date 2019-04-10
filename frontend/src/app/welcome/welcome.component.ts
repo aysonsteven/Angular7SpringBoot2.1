@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';//'./app.component';
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: ['./welcome.component.scss']
 })
 
 //public class SpringBootFirstWebApplication implements SomeInterface{

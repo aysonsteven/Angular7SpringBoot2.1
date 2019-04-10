@@ -1,32 +1,23 @@
+import { BasicAuthenticationService } from './../service/basic-authentication.service';
 import { HardcodedAuthenticationService } from './../service/hardcoded-authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {UserDTO} from "../shared/dto/user.dto";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  username = 'aysonsteven'
-  password = ''
-  errorMessage = 'Invalid Credentials'
-  invalidLogin = false
+  user: UserDTO = new UserDTO();
 
-  //Router
-  //Angular.giveMeRouter
-  //Dependency Injection
-  constructor(
+  constructor(private router: Router,
     private hardcodedAuthenticationService: HardcodedAuthenticationService,
-    private router: Router
-  ) { }
+    private basicAuthenticationService: BasicAuthenticationService) { }
 
   ngOnInit() {
-    if( this.hardcodedAuthenticationService.isUserLoggedIn()) {
-        console.log('test',sessionStorage.getItem('authenticaterUser'))
-      this.router.navigate([`/welcome/${sessionStorage.getItem('authenticaterUser')}`]);
-    }
   }
 
   handleLogin() {
@@ -34,10 +25,28 @@ export class LoginComponent implements OnInit {
     //if(this.username==="in28minutes" && this.password === 'dummy') {
     if(this.hardcodedAuthenticationService.authenticate(this.username, this.password)) {
       //Redirect to Welcome Page
-      this.router.navigate(['welcome', this.username])
-      this.invalidLogin = false
+      this.router.navigate(['welcome', this.user.username])
+      this.user.invalidLogin = false
     } else {
-      this.invalidLogin = true
+      this.user.invalidLogin = true
     }
   }
+
+  handleBasicAuthLogin() {
+    // console.log(this.username);
+    //if(this.username==="in28minutes" && this.password === 'dummy') {
+    this.basicAuthenticationService.executeAuthenticationService(this.user.username, this.user.password)
+        .subscribe(
+          data => {
+            console.log(data)
+            this.router.navigate(['welcome', this.user.username])
+            this.user.invalidLogin = false
+          },
+          error => {
+            console.log(error)
+            this.user.invalidLogin = true
+          }
+        )
+  }
+
 }
