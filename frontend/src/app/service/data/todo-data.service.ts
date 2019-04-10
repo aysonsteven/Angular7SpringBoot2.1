@@ -11,7 +11,7 @@ export class TodoDataService {
   ) { }
 
   retrieveAllTodos(username) {
-    return this.http.get<Todo[]>(`http://localhost:8080/users/${username}/todos`);
+    return this.http.get(`http://localhost:8080/users/${username}/todos`);
     //console.log("Execute Hello World Bean Service")
   }
 
@@ -20,7 +20,7 @@ export class TodoDataService {
   }
 
   retrieveTodo(username, id){
-    return this.http.get<Todo>(`http://localhost:8080/users/${username}/todos/${id}`);
+    return this.http.get(`http://localhost:8080/users/${username}/todos/${id}`);
   }
 
   updateTodo(username, id, todo){
